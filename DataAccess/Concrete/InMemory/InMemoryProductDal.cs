@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstact;
 using Entities.Concrete;
+using Entities.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,6 +82,11 @@ namespace DataAccess.Concrete.InMemory
             productUpdate.UnitsInStock = product.UnitsInStock;
             productUpdate.CategoryId = product.CategoryId;
 
+        }
+
+        public List<ProductDetailsDto> GetProductDetails()
+        {
+            throw new NotImplementedException();
         }
     }
 }

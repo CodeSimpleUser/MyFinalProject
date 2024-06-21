@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstact;
+﻿using Core.DataAccess.EntitiyFramework;
+using DataAccess.Abstact;
 using Entities.Concrete;
+using Entities.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,58 +14,20 @@ namespace DataAccess.Concrete.EntitiyFramework
 {
     //NuGet
 
-    public class EfProductDal : IProductDal
+    public class EfProductDal : EfEntitiyRepositoryBase<Product, NorthwindContext>, IProductDal
     {
-        public void Add(Product entitiy)
-        {
-            //When the job done , it will be clear from the memory
-            //It is better for performance
-            //IDispsible pattern implement of C#
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var AddedEntity = context.Entry(entitiy);
-                AddedEntity.State = EntityState.Added;
-                context.SaveChanges();
-            }
-        }
-
-        public void Delete(Product entitiy)
+        public List<ProductDetailsDto> GetProductDetails()
         {
             using (NorthwindContext context = new NorthwindContext())
             {
-                var DeletedEntitiy = context.Entry(entitiy);
-                DeletedEntitiy.State = EntityState.Deleted;
-                context.SaveChanges();
-            }
-        }
-
-        public Product Get(Expression<Func<Product, bool>> filter)
-        {
-            using (var context = new NorthwindContext())
-            {
-                return context.Set<Product>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
-        {
-            using (var context = new NorthwindContext())
-            {
-                return filter == null
-                    ? context.Set<Product>().ToList()
-                    : context.Set<Product>().Where(filter).ToList();
-
-            }
-        }
-
-        public void Update(Product entitiy)
-        {
-            using (var context = new NorthwindContext())
-            {
-                var UpdatedEntitiy = context.Entry(entitiy);
-                UpdatedEntitiy.State = EntityState.Modified;
-                context.SaveChanges();
-
+                var result = from p in context.Products
+                             join c in context.Categories
+                             on p.CategoryId equals c.CategoryId
+                             select new ProductDetailsDto {ProductName = p.ProductName,CategoryName = c.CategoryName,
+                                 ProductId = p.ProductId,
+                                 UnitsInStock = p.UnitsInStock 
+                             };
+                return result.ToList();
             }
         }
     }
