@@ -2,7 +2,9 @@
 using DataAccess.Abstact;
 using DataAccess.Concrete.EntitiyFramework;
 using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
 using System;
+using System.Xml.XPath;
 
 namespace ConsoleUI
 {
@@ -28,10 +30,21 @@ namespace ConsoleUI
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
 
-            foreach (var product in productManager.GetProductDetails())
+            var result = productManager.GetProductDetails();
+
+            if (result.Success == true)
             {
-                Console.WriteLine(product.ProductName + " = " + product.CategoryName);
+                foreach (var item in result.Data)
+                {
+                    Console.WriteLine(item.ProductName + " = " + item.CategoryName);
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+          
         }
     }
 }
