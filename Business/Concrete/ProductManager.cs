@@ -25,11 +25,11 @@ namespace Business.Concrete
         public IResult Add(Product product)
         {
             //Business codes
-            if (product.ProductName.Length < 4) 
-            {
-                //magic strings
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
+            //if (product.ProductName.Length < 4) 
+            //{
+            //    //magic strings
+            //    return new ErrorResult(Messages.ProductNameInvalid);
+            //}
 
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
@@ -37,10 +37,10 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            if (DateTime.Now.Hour<22)
-            {
-                return new ErrorDataResult<List<Product>>(Messages.MaintanenceTime);
-            }
+            //if (DateTime.Now.Hour < 18)
+            //{
+            //    return new ErrorDataResult<List<Product>>(Messages.MaintanenceTime);
+            //}
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductAdded);
         }
 
@@ -61,10 +61,10 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductDetailsDto>> GetProductDetails()
         {
-            if (DateTime.Now.Hour < 22)
-            {
-                return new ErrorDataResult<List<ProductDetailsDto>>(Messages.MaintanenceTime);
-            }
+            //if (DateTime.Now.Hour < 22)
+            //{
+            //    return new ErrorDataResult<List<ProductDetailsDto>>(Messages.MaintanenceTime);
+            //}
             return new SuccessDataResult<List<ProductDetailsDto>> (_productDal.GetProductDetails());
         }
     }

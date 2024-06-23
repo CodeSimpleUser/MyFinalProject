@@ -1,10 +1,14 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
 using DataAccess.Abstact;
 using DataAccess.Concrete.EntitiyFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
+using FluentAssertions.Common;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Xml.XPath;
+
 
 namespace ConsoleUI
 {
@@ -43,8 +47,6 @@ namespace ConsoleUI
             {
                 Console.WriteLine(result.Message);
             }
-
-          
         }
     }
 }
